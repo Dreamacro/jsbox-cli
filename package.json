@@ -1,0 +1,39 @@
+{
+  "name": "jsbox-cli",
+  "version": "1.0.1",
+  "description": "JSBox Development Utilities on Node",
+  "bin": {
+    "jsbox": "./bin/jsbox"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc"
+  },
+  "author": "Dreamacro",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dreamacro/jsbox-cli.git"
+  },
+  "devDependencies": {
+    "@types/archiver": "^2.1.1",
+    "@types/chokidar": "^1.7.5",
+    "@types/form-data": "^2.2.1",
+    "@types/got": "^8.3.1",
+    "@types/lowdb": "^1.0.1",
+    "@types/node": "^10.0.4",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.10.0",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "archiver": "^2.1.1",
+    "chalk": "^2.4.1",
+    "chokidar": "^2.0.3",
+    "commander": "^2.15.1",
+    "form-data": "^2.3.2",
+    "got": "^8.3.1",
+    "lodash": "^4.17.10",
+    "lowdb": "^1.0.0"
+  }
+}
