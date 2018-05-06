@@ -1,7 +1,7 @@
 import * as program from 'commander'
 import * as net from 'net'
 import * as path from 'path'
-import { showHost, watch, saveHost } from './actions'
+import { showHost, watch, saveHost, build } from './actions'
 import * as log from './log'
 
 program
@@ -34,6 +34,18 @@ program
     item = path.resolve(pwd, item)
 
     watch(item)
+  })
+
+program
+  .command('build [dir]')
+  .option('-o, --output <output>', 'Specify the output directory')
+  .description('Build box package')
+  .action(async (dir: string, cmd) => {
+    const pwd = process.cwd()
+    dir = dir || '.'
+    dir = path.resolve(pwd, dir)
+
+    await build(dir, cmd.output)
   })
 
 program.parse(process.argv)

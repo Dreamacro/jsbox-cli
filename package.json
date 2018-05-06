@@ -1,12 +1,14 @@
 {
   "name": "jsbox-cli",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "JSBox Development Utilities on Node",
   "bin": {
     "jsbox": "./bin/jsbox"
   },
   "scripts": {
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "lint": "tslint -p .",
+    "dev": "tsc -w"
   },
   "author": "Dreamacro",
   "license": "MIT",
@@ -14,6 +16,10 @@
     "type": "git",
     "url": "https://github.com/Dreamacro/jsbox-cli.git"
   },
+  "keywords": [
+    "jsbox",
+    "jsbox-cli"
+  ],
   "devDependencies": {
     "@types/archiver": "^2.1.1",
     "@types/chokidar": "^1.7.5",
