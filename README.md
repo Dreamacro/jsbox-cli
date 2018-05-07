@@ -2,6 +2,9 @@
 
 JSBox VSCode 插件的 cli 版本.
 
+![Travis](https://img.shields.io/travis/Dreamacro/jsbox-cli.svg?style=flat-square)
+![NPM version](https://img.shields.io/npm/v/jsbox-cli.svg?style=flat-square)
+
 ## Installation
 
 ```
