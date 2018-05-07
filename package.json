@@ -6,7 +6,7 @@
     "jsbox": "./bin/jsbox"
   },
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "npm run lint && rimraf dist && tsc",
     "lint": "tslint -p .",
     "dev": "tsc -w"
   },
