@@ -27,7 +27,9 @@ export function zipFolder (dir: string, path: string): Promise<string> {
   const s = createWriteStream(path)
   readdirSync(dir).forEach(fileName => {
     let isDir = lstatSync(join(dir, fileName)).isDirectory()
-    if (isDir) {
+    if (isDir && fileName === '.output') {
+      return
+    } else if (isDir) {
       archive.directory(join(dir, fileName), fileName)
     } else {
       archive.file(join(dir, fileName), { name: fileName })
