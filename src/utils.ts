@@ -1,4 +1,4 @@
-import { readdirSync, createWriteStream, readFileSync, existsSync, mkdirSync } from 'fs'
+import { readdirSync, createWriteStream, readFileSync, existsSync, mkdirSync, lstatSync } from 'fs'
 import { join, dirname } from 'path'
 import * as archiver from 'archiver'
 import * as _ from 'lodash'
@@ -25,13 +25,16 @@ export function zipFolder (dir: string, path: string): Promise<string> {
 
   const archive = archiver('zip')
   const s = createWriteStream(path)
-  for (const d of ['assets', 'scripts', 'strings']) {
-    archive.directory(join(dir, d), d)
-  }
-
-  for (const f of ['config.json', 'main.js']) {
-    archive.file(join(dir, f), { name: f })
-  }
+  readdirSync(dir).forEach(fileName => {
+    let isDir = lstatSync(join(dir, fileName)).isDirectory()
+    if (isDir && fileName === '.output') {
+      return
+    } else if (isDir) {
+      archive.directory(join(dir, fileName), fileName)
+    } else {
+      archive.file(join(dir, fileName), { name: fileName })
+    }
+  })
 
   archive.finalize()
   archive.pipe(s)
