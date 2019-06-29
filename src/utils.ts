@@ -1,7 +1,11 @@
 import { readdirSync, createWriteStream, readFileSync, existsSync, mkdirSync, statSync } from 'fs'
+import * as stream from 'stream'
+import * as util from 'util'
 import { join, dirname } from 'path'
 import * as archiver from 'archiver'
 import * as _ from 'lodash'
+
+const pipeline = util.promisify(stream.pipeline)
 
 export function isPackageDir (dir: string) {
   const filesSet = new Set(readdirSync(dir))
@@ -18,7 +22,7 @@ export function getPackageName (dir: string) {
   return _.get(config, 'info.name')
 }
 
-export function zipFolder (dir: string, path: string): Promise<string> {
+export async function zipFolder (dir: string, path: string): Promise<string> {
   if (!existsSync(dirname(path))) {
     mkdirp(dirname(path))
   }
@@ -38,11 +42,9 @@ export function zipFolder (dir: string, path: string): Promise<string> {
     archive.file(join(dir, f), { name: f })
   }
 
-  archive.finalize()
-  archive.pipe(s)
-  return new Promise(r => {
-    s.on('close', () => r(path))
-  })
+  await archive.finalize()
+  await pipeline(archive, s)
+  return path
 }
 
 export function mkdirp (path: string) {

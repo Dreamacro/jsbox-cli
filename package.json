@@ -1,10 +1,16 @@
 {
   "name": "jsbox-cli",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "JSBox Development Utilities on Node",
   "bin": {
     "jsbox": "./bin/jsbox"
   },
+  "files": [
+    "bin",
+    "dist",
+    "package.json",
+    "package-lock.json"
+  ],
   "scripts": {
     "build": "npm run lint && rimraf dist && tsc",
     "lint": "tslint -p .",
