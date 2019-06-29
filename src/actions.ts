@@ -29,7 +29,7 @@ export const sync = _.debounce(async (isdir, path, host, packageName) => {
 
   const [, err] = await tryCatch(got.post(`http://${host}/upload`, {
     body: formData,
-    timeout: 5000
+    timeout: 10000
   }))
   if (err) {
     log.error(err.message)

@@ -1,6 +1,6 @@
 {
   "name": "jsbox-cli",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "JSBox Development Utilities on Node",
   "bin": {
     "jsbox": "./bin/jsbox"
