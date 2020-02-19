@@ -112,6 +112,7 @@ export async function create (path: string, packageName?: string) {
   const sourcePath = resolve(__dirname, '../template')
   const targetPath = createInCurDir ? path : resolve(path, packageName)
   const targetConfigPath = resolve(targetPath, 'config.json')
+  const filterFiles = ['.gitkeep']
   packageName = createInCurDir ? basename(targetPath) : packageName
 
   if (createInCurDir) {
@@ -124,7 +125,11 @@ export async function create (path: string, packageName?: string) {
     process.exit(1)
   }
 
-  const [, err] = await tryCatch(fse.copy(sourcePath, targetPath))
+  const [, err] = await tryCatch(fse.copy(sourcePath, targetPath, {
+    filter: (_, dest) => {
+      return !filterFiles.includes(basename(dest))
+    }
+  }))
   if (err) {
     log.error('Create package failed')
     process.exit(1)
