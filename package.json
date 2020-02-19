@@ -43,6 +43,7 @@
     "chokidar": "^3.0.1",
     "commander": "^2.20.0",
     "form-data": "^2.4.0",
+    "fs-extra": "^8.1.0",
     "got": "^9.6.0",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0"

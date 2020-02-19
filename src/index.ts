@@ -1,7 +1,7 @@
 import * as program from 'commander'
 import * as net from 'net'
 import * as path from 'path'
-import { showHost, watch, saveHost, build } from './actions'
+import { showHost, watch, saveHost, build, create } from './actions'
 import * as log from './log'
 
 program
@@ -46,6 +46,14 @@ program
     dir = path.resolve(pwd, dir)
 
     await build(dir, cmd.output)
+  })
+
+program
+  .command('create [name]')
+  .description('Create a new box package')
+  .action(async (packageName: string) => {
+    const pwd = process.cwd()
+    await create(pwd, packageName)
   })
 
 program.parse(process.argv)
