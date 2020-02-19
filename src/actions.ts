@@ -9,6 +9,7 @@ import * as chokidar from 'chokidar'
 import * as _ from 'lodash'
 import * as got from 'got'
 import * as FormData from 'form-data'
+import * as fse from 'fs-extra'
 
 export function showHost () {
   const ip = getHost()
@@ -104,4 +105,42 @@ export async function build (path: string, ouputPath?: string) {
 
   await zipFolder(path, ouputPath)
   log.info(`Build in ${ouputPath}`)
+}
+
+export async function create (path: string, packageName?: string) {
+  const createInCurDir = !packageName
+  const sourcePath = resolve(__dirname, '../template')
+  const targetPath = createInCurDir ? path : resolve(path, packageName)
+  const targetConfigPath = resolve(targetPath, 'config.json')
+  const filterFiles = ['.gitkeep']
+  packageName = createInCurDir ? basename(targetPath) : packageName
+
+  if (createInCurDir) {
+    if (fs.readdirSync(targetPath).length) {
+      log.error(`Current directory is not empty`)
+      process.exit(1)
+    }
+  } else if (fs.existsSync(targetPath)) {
+    log.error(`${targetPath} is already exist, try another name`)
+    process.exit(1)
+  }
+
+  const [, err] = await tryCatch(fse.copy(sourcePath, targetPath, {
+    filter: (_, dest) => {
+      return !filterFiles.includes(basename(dest))
+    }
+  }))
+  if (err) {
+    log.error('Create package failed')
+    process.exit(1)
+  }
+
+  // It doesn't matter if modification of config's name field failed
+  const [configObj] = await tryCatch<object>(fse.readJson(targetConfigPath))
+  if (configObj) {
+    _.set(configObj, 'info.name', packageName)
+    await tryCatch(fse.writeJson(targetConfigPath, configObj, { spaces: 2 }))
+  }
+
+  log.info(`Create package ${packageName} success`)
 }
